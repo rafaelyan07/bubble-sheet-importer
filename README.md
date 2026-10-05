@@ -4,6 +4,7 @@
 ![Python](https://img.shields.io/badge/python-3.12-blue)
 ![FastAPI](https://img.shields.io/badge/FastAPI-0.142-009688)
 ![Cloud Run](https://img.shields.io/badge/deploy-Google%20Cloud%20Run-4285F4)
+[![Licença: MIT](https://img.shields.io/badge/licen%C3%A7a-MIT-green)](LICENSE)
 
 API que importa planilhas de conciliação financeira (≈5 mil linhas/mês) para um app **no-code feito em [Bubble](https://bubble.io)**:
 baixa o arquivo enviado pelo usuário, limpa e valida os dados e grava tudo no banco do Bubble em lotes,
@@ -164,3 +165,7 @@ gcloud run deploy bubble-sheet-importer --source . --region southamerica-east1 \
 ## Autor
 
 [@rafaelyan07](https://github.com/rafaelyan07)
+
+## Licença
+
+[MIT](LICENSE)
