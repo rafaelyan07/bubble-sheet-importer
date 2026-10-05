@@ -1,0 +1,11 @@
+.env
+.venv/
+__pycache__/
+*.pyc
+.pytest_cache/
+
+# planilhas reais não vão para o git (dados pessoais); só a de exemplo, que é fictícia
+*.xlsx
+*.xls
+*.csv
+!exemplos/planilha_exemplo.xlsx
