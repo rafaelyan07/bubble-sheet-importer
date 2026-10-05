@@ -61,7 +61,7 @@ em **~1 minuto** pelo endpoint bulk, com o progresso aparecendo na tela.
 | **Tratamento de dados** | Funções puras e testadas para CPF, datas, valores e textos; agrupamento de categorias por regex; remoção de duplicadas por chave configurável; motivo do descarte com o número da linha no Excel. |
 | **Segurança** | API key com comparação em tempo constante; proteção contra SSRF (só HTTPS, allowlist de hosts revalidada a cada redirect, limite de tamanho em streaming); validação do formato dos ids; segredos no Secret Manager; contêiner sem root. |
 | **Observabilidade** | Logs JSON estruturados, um evento por etapa (`download`, `leitura`, `tratamento`, `bubble_bulk`, `fim`), prontos para o Cloud Logging. |
-| **Qualidade** | 88 testes com `pytest` (HTTP simulado com `httpx.MockTransport`, sem rede), rodando no GitHub Actions junto com o build da imagem Docker. |
+| **Qualidade** | 95 testes com `pytest` (HTTP simulado com `httpx.MockTransport`, sem rede), rodando no GitHub Actions junto com o build da imagem Docker. |
 | **Deploy** | Docker no Google Cloud Run (região São Paulo) com deploy contínuo a partir do GitHub e custo dentro da camada gratuita. |
 
 ## Regras de tratamento
@@ -71,6 +71,7 @@ em **~1 minuto** pelo endpoint bulk, com o progresso aparecendo na tela.
 | Nome do Servidor | `nome` | maiúsculas, sem acento, espaços extras removidos (**obrigatório**) |
 | CPF do Servidor | `cpf` | formata `xxx.xxx.xxx-xx` e repõe zeros perdidos pelo Excel; dígito verificador opcional (**obrigatório**) |
 | Mês da Conciliação | `data` | ISO 8601; aceita data do Excel, `dd/mm/aaaa`, `mm/aaaa`, `aaaa-mm`, `jan/2026` (**obrigatório**) |
+| Mês da Conciliação | `mes_conciliacao` | texto `MM/AAAA` derivado da mesma data, sempre no mesmo formato |
 | Descr. Motivo da Conciliação | `motivo` | maiúsculas, sem acento |
 | Descrição da Espécie | `tipo_cobranca` | agrupa variações (ex.: "Seguro de Vida em Grupo" → `SEGURO`) |
 | Valor Averbado | `valor` | aceita `1.234,56`, `R$ 1.234,56`, `1234.56` (**obrigatório**) |
@@ -90,7 +91,7 @@ app/
   arquivo.py         download seguro (allowlist, só HTTPS, redirects validados, limite de tamanho)
   config.py          configuração por variáveis de ambiente
   logging_config.py  logs JSON
-tests/               88 testes (pytest)
+tests/               95 testes (pytest)
 exemplos/            planilha fictícia para testar
 Dockerfile
 ```

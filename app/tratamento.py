@@ -224,6 +224,13 @@ def normalizar_data(valor: Any) -> str | None:
     return None
 
 
+def mes_conciliacao(data_iso: str | None) -> str | None:
+    """"2026-08-01T00:00:00Z" -> "08/2026" (texto, sempre no mesmo formato)."""
+    if not data_iso:
+        return None
+    return f"{data_iso[5:7]}/{data_iso[:4]}"
+
+
 def normalizar_valor(valor: Any) -> float | None:
     """Converte valor monetário (número, "1.234,56", "R$ 1234.56", "1,234.56") para float."""
     if _vazio(valor):
@@ -277,6 +284,7 @@ def tratar_linha(
         "valor": normalizar_valor(linha.get("valor")),
         "averbacao": normalizar_averbacao(linha.get("averbacao")),
     }
+    registro["mes_conciliacao"] = mes_conciliacao(registro["data"])
 
     for campo in CAMPOS_OBRIGATORIOS:
         if registro[campo] is None:

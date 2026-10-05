@@ -7,6 +7,7 @@ from app.tratamento import (
     ErroPlanilha,
     cpf_digito_valido,
     ler_planilha,
+    mes_conciliacao,
     normalizar_averbacao,
     normalizar_cpf,
     normalizar_data,
@@ -149,6 +150,25 @@ def test_normalizar_averbacao(entrada, esperado):
     assert normalizar_averbacao(entrada) == esperado
 
 
+@pytest.mark.parametrize(
+    "entrada,esperado",
+    [
+        ("08/2026", "08/2026"),
+        ("8/2026", "08/2026"),
+        ("31/01/2026", "01/2026"),
+        ("jan/2026", "01/2026"),
+        (datetime(2026, 12, 5), "12/2026"),
+        (46054, "02/2026"),  # serial do Excel = 01/02/2026
+    ],
+)
+def test_mes_conciliacao(entrada, esperado):
+    assert mes_conciliacao(normalizar_data(entrada)) == esperado
+
+
+def test_mes_conciliacao_vazio():
+    assert mes_conciliacao(None) is None
+
+
 # ------------------------------------------------------------------ colunas
 
 
@@ -212,6 +232,7 @@ def test_tratar_dataframe(df_exemplo):
         "nome": "JOAO DA SILVA",
         "cpf": "529.982.247-25",
         "data": "2026-01-31T00:00:00Z",
+        "mes_conciliacao": "01/2026",
         "motivo": "DESCONTO OK",
         "tipo_cobranca": "MENSALIDADE",
         "valor": 150.5,
